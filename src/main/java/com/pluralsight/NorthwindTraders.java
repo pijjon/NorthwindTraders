@@ -38,7 +38,7 @@ public class NorthwindTraders {
                         
                         """);
 
-                switch (scanner.nextInt()) {
+                switch (response) {
                     case 1:
                         displayAllProducts(connection);
                         break;
