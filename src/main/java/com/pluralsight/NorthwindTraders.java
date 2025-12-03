@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import java.sql.*;
 import java.util.Scanner;
 
@@ -18,12 +20,15 @@ public class NorthwindTraders {
         String username = args[0];
         String password = args[1];
 
-        try (
-                Connection connection = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/northwind",
-                        username,
-                        password);
+        BasicDataSource dataSource = new BasicDataSource();
 
+        // Configure the datasource 
+        dataSource.setUrl("jdbc:mysql://localhost:3306/northwind");
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+
+        try (
+                Connection connection = dataSource.getConnection();
         ) {
 
             while (true) {
@@ -126,8 +131,6 @@ public class NorthwindTraders {
 
                 printResults(results);
 
-            } catch (SQLException e) {
-                System.out.println("Could not query products by category");
             }
         } catch (SQLException e) {
             System.out.println("Could not create prepared statement query");
